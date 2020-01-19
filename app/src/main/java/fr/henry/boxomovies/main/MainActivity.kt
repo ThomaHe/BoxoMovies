@@ -10,6 +10,7 @@ import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
     private lateinit var mainAdapter: MainAdapter
     private var mMovieList: MutableList<Movie> = mutableListOf()
     private lateinit var mMainController : MainController
-    private var mLastSearch: String = ""
+    private lateinit var searchView:SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
         menuInflater.inflate(R.menu.menu_main, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchMenuItem = menu?.findItem(R.id.search)
-        val searchView = searchMenuItem?.actionView as SearchView
+        searchView = searchMenuItem?.actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.setIconifiedByDefault(false)
         searchView.queryHint = getString(R.string.search_hint)
@@ -62,12 +63,14 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                hideKeyboard()
                 return true
             }
         })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newSearch: String): Boolean {
+                hideKeyboard()
                 searchMovies(newSearch)
                 return false
             }
@@ -82,8 +85,8 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_reload -> {
-                if(!mLastSearch.isNullOrEmpty())
-                    searchMovies(mLastSearch)
+                hideKeyboard()
+                searchMovies(searchView.query.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -92,10 +95,11 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
 
     private fun searchMovies(title:String){
         mMainController.searchMovies(title)
-        mLastSearch=title
     }
 
     override fun onGetResult(movies: List<Movie>) {
+        recycler_message.visibility=View.INVISIBLE
+        movie_recycler.visibility = View.VISIBLE
         mMovieList.clear()
         mMovieList.addAll(movies)
         mainAdapter.notifyDataSetChanged()
@@ -104,6 +108,8 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
     override fun onNoResult() {
         mMovieList.clear()
         mainAdapter.notifyDataSetChanged()
+        recycler_message.visibility=View.VISIBLE
+        movie_recycler.visibility = View.INVISIBLE
         Toast.makeText(this, getString(R.string.no_result), Toast.LENGTH_SHORT).show()
     }
 
@@ -113,6 +119,16 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
         startActivity(intent)
     }
 
+    fun AppCompatActivity.hideKeyboard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+        // else {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        // }
+    }
     companion object {
         const val EXTRA_MESSAGE = "MEDIA_ID"
     }

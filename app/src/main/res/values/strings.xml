@@ -2,18 +2,20 @@
     <string name="app_name">BoxoMovies</string>
     <string name="poster_description">Movie Poster</string>
     <string name="release_date">Release Date : </string>
-    <string name="critics">Critics : </string>
-    <string name="viewers">Audience : </string>
+    <string name="ratings">Ratings : </string>
     <string name="review">My review : </string>
     <string name="synopsis">Synopsis : </string>
     <string name="casting">Casting : </string>
     <string name="director">Director : </string>
+    <string name="runtime">Runtime : </string>
     <string name="genre">Genre : </string>
 
     <string name="search_title">Search</string>
     <string name="reload_title">Reload</string>
     <string name="search_hint">Find movies</string>
     <string name="no_result">There were no results to your search</string>
+    <string name="recycler_message">Use the searchbar to find any movie you want</string>
 
+    <string name="details_name">Details</string>
 
 </resources>
