@@ -1,6 +1,7 @@
 # BoxoMovies
 
-##Description
+## Description
+
 A simple app to search and read informations about movies.
 Made with Kotlin, Retrofit for the api and Glide for the pictures.
 It gets all the informations from the OpenMovie Database, with the api : https://www.omdbapi.com/ 
