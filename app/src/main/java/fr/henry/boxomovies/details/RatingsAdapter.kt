@@ -9,7 +9,7 @@ import fr.henry.boxomovies.R
 import fr.henry.boxomovies.data.Rating
 import kotlinx.android.synthetic.main.rating_item.view.*
 
-class RatingsAdapter(private val ratings:List<Rating>, val context: Context) : RecyclerView.Adapter<RatingsAdapter.ViewHolder>(){
+class RatingsAdapter(private val ratings:List<Rating>, private val context: Context) : RecyclerView.Adapter<RatingsAdapter.ViewHolder>(){
 
     override fun getItemCount(): Int {
         return ratings.size

@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,29 +14,27 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import fr.henry.boxomovies.R
 import fr.henry.boxomovies.data.Movie
 import fr.henry.boxomovies.details.DetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(), MainContract.MainView, MainAdapter.OnItemClickListener {
 
 
     private lateinit var mainAdapter: MainAdapter
     private var mMovieList: MutableList<Movie> = mutableListOf()
-    private lateinit var mMainController : MainController
+    private lateinit var mMainPresenter : MainPresenter
     private lateinit var searchView:SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mMainController = MainController(this)
+        mMainPresenter = MainPresenter(this)
         mainAdapter = MainAdapter(mMovieList,this, this)
         movie_recycler.layoutManager = LinearLayoutManager(this)
         movie_recycler.adapter = mainAdapter
-
     }
 
 
@@ -48,7 +45,7 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
         val searchMenuItem = menu?.findItem(R.id.search)
         searchView = searchMenuItem?.actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.setIconifiedByDefault(false)
+        searchView.isIconifiedByDefault=false
         searchView.queryHint = getString(R.string.search_hint)
 
         searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -94,7 +91,7 @@ class MainActivity : AppCompatActivity(),MainView, MainAdapter.OnItemClickListen
     }
 
     private fun searchMovies(title:String){
-        mMainController.searchMovies(title)
+        mMainPresenter.searchMovies(title)
     }
 
     override fun onGetResult(movies: List<Movie>) {

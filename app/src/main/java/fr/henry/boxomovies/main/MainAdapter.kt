@@ -10,7 +10,7 @@ import fr.henry.boxomovies.R
 import fr.henry.boxomovies.data.Movie
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-class MainAdapter(val movieList:MutableList<Movie>, val context:Context,val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<MainAdapter.ViewHolder>(){
+class MainAdapter(private val movieList:MutableList<Movie>, private val context:Context,private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<MainAdapter.ViewHolder>(){
 
 
     override fun getItemCount(): Int {

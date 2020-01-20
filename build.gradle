@@ -26,3 +26,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    retrofitVersion = "2.4.0"
+    glideVersion = "4.11.0"
+    okhttpVersion = "3.12.6"
+    rxandroidVersion="2.0.1"
+}

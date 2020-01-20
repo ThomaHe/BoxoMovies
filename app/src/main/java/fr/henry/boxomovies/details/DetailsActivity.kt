@@ -12,9 +12,9 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
-class DetailsActivity : AppCompatActivity(),DetailsView {
+class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
 
-    private lateinit var mDetailsController : DetailsController
+    private lateinit var mDetailsPresenter : DetailsContract.DetailsPresenter
     private lateinit var ratingAdapter: RatingsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +28,8 @@ class DetailsActivity : AppCompatActivity(),DetailsView {
 
         val intent = intent
         val mMovieId = intent.getStringExtra(MainActivity.EXTRA_MESSAGE)
-        mDetailsController = DetailsController(this)
-        mDetailsController.searchMovie(mMovieId!!)
+        mDetailsPresenter = DetailsPresenter(this)
+        mDetailsPresenter.searchMovie(mMovieId!!)
     }
 
     override fun onMovieFound(movie: Movie) {

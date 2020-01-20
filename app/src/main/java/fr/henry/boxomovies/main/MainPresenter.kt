@@ -1,18 +1,17 @@
 package fr.henry.boxomovies.main
 
 import android.util.Log
-import fr.henry.boxomovies.data.Movie
 import fr.henry.boxomovies.network.ApiCalls
 import fr.henry.boxomovies.network.MoviesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainController(mView: MainView) {
+class MainPresenter(mView: MainContract.MainView):MainContract.MainPresenter {
 
     private val view =mView
 
-    fun searchMovies(title:String){
+    override fun searchMovies(title:String){
         val mCall: Call<MoviesResponse> = ApiCalls.getMovieListByTitle(title, "full")
 
         mCall.enqueue(object : Callback<MoviesResponse> {
@@ -31,7 +30,7 @@ class MainController(mView: MainView) {
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 if (!call.isCanceled) {
-                    Log.e("API CALL FAILED", t.message)
+                    Log.e("API CALL FAILED", t.message!!)
                 }
             }
         })

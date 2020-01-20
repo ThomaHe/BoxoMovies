@@ -7,11 +7,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailsController(mView: DetailsView) {
+class DetailsPresenter(mView: DetailsContract.DetailsView):DetailsContract.DetailsPresenter {
 
     private val view =mView
 
-    fun searchMovie(movieId:String) {
+    override fun searchMovie(movieId:String) {
         val mCall: Call<Movie> = ApiCalls.getMovieById(movieId, "full")
         mCall.enqueue(object : Callback<Movie> {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>?) {
