@@ -4,10 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fr.henry.boxomovies.R
 import fr.henry.boxomovies.data.Rating
-import kotlinx.android.synthetic.main.rating_item.view.*
 
 class RatingsAdapter(private val ratings:List<Rating>, private val context: Context) : RecyclerView.Adapter<RatingsAdapter.ViewHolder>(){
 
@@ -16,8 +16,8 @@ class RatingsAdapter(private val ratings:List<Rating>, private val context: Cont
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.critic?.text = ratings[position].source
-        holder.ratingValue?.text = ratings[position].value
+        holder.critic.text = ratings[position].source
+        holder.ratingValue.text = ratings[position].value
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,8 +25,8 @@ class RatingsAdapter(private val ratings:List<Rating>, private val context: Cont
     }
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
-        val critic =view.critic
-        val ratingValue = view.rating_value
+        val critic: TextView = view.findViewById(R.id.critic)
+        val ratingValue: TextView = view.findViewById(R.id.rating_value)
 
     }
 }

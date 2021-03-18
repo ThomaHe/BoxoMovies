@@ -1,6 +1,7 @@
 package fr.henry.boxomovies.main
 
 import android.util.Log
+import fr.henry.boxomovies.details.DetailsContract
 import fr.henry.boxomovies.network.ApiCalls
 import fr.henry.boxomovies.network.MoviesResponse
 import retrofit2.Call
@@ -9,7 +10,7 @@ import retrofit2.Response
 
 class MainPresenter(mView: MainContract.MainView):MainContract.MainPresenter {
 
-    private val view =mView
+    private var view: MainContract.MainView? = mView
 
     override fun searchMovies(title:String){
         val mCall: Call<MoviesResponse> = ApiCalls.getMovieListByTitle(title, "full")
@@ -19,9 +20,9 @@ class MainPresenter(mView: MainContract.MainView):MainContract.MainPresenter {
                 response?.let {
                     if (it.isSuccessful && it.code() == 200) {
                         if(it.body()?.moviesList==null)
-                            view.onNoResult()
+                            view?.onNoResult()
                         else
-                            view.onGetResult(it.body()?.moviesList!!)
+                            view?.onGetResult(it.body()?.moviesList!!)
                     } else {
                         Log.e("API CALL", response.message())
                     }
@@ -34,6 +35,10 @@ class MainPresenter(mView: MainContract.MainView):MainContract.MainPresenter {
                 }
             }
         })
+    }
+
+    override fun onDestroyView() {
+        this.view = null
     }
 
 }

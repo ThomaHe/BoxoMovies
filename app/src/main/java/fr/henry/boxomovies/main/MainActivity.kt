@@ -126,6 +126,12 @@ class MainActivity : AppCompatActivity(), MainContract.MainView, MainAdapter.OnI
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         // }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mMainPresenter.onDestroyView()
+    }
+
     companion object {
         const val EXTRA_MESSAGE = "MEDIA_ID"
     }

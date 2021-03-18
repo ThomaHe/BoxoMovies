@@ -9,7 +9,7 @@ import retrofit2.Response
 
 class DetailsPresenter(mView: DetailsContract.DetailsView):DetailsContract.DetailsPresenter {
 
-    private val view =mView
+    private var view: DetailsContract.DetailsView? = mView
 
     override fun searchMovie(movieId:String) {
         val mCall: Call<Movie> = ApiCalls.getMovieById(movieId, "full")
@@ -17,7 +17,7 @@ class DetailsPresenter(mView: DetailsContract.DetailsView):DetailsContract.Detai
             override fun onResponse(call: Call<Movie>, response: Response<Movie>?) {
                 response?.let {
                     if (it.isSuccessful && it.code() == 200&&it.body()!=null) {
-                       view.onMovieFound(it.body()!!)
+                       view?.onMovieFound(it.body()!!)
                     } else {
                         Log.e("API CALL", response.message())
                     }
@@ -30,6 +30,10 @@ class DetailsPresenter(mView: DetailsContract.DetailsView):DetailsContract.Detai
                 }
             }
         })
+    }
+
+    override fun onDestroyView() {
+        this.view = null
     }
 
 }

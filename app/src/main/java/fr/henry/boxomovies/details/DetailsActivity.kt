@@ -54,4 +54,8 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mDetailsPresenter.onDestroyView()
+    }
 }

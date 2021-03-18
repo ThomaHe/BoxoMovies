@@ -10,5 +10,6 @@ interface DetailsContract {
 
     interface DetailsPresenter{
         fun searchMovie(movieId:String)
+        fun onDestroyView()
     }
 }

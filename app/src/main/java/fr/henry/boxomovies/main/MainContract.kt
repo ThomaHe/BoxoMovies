@@ -11,5 +11,6 @@ interface MainContract {
 
     interface MainPresenter{
         fun searchMovies(title:String)
+        fun onDestroyView()
     }
 }
